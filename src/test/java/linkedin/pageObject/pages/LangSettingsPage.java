@@ -1,4 +1,4 @@
-package linkedin.pageObject;
+package linkedin.pageObject.pages;
 
 import framework.BasePage;
 import framework.Browser;
@@ -6,7 +6,6 @@ import framework.elements.Button;
 import framework.elements.DropDown;
 import framework.elements.Frame;
 import framework.elements.Label;
-import io.qameta.allure.internal.shadowed.jackson.annotation.JsonTypeInfo;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;

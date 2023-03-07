@@ -1,16 +1,9 @@
-package linkedin;
+package linkedin.tests;
 
 import framework.BaseTest;
-import framework.Browser;
 import framework.PropertyReader;
-import framework.elements.Label;
-import linkedin.pageObject.*;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.testng.Assert;
+import linkedin.pageObject.pages.*;
 import org.testng.annotations.Test;
-
-import static org.openqa.selenium.By.xpath;
 
 public class  LinkedInTest extends BaseTest {
     String correctPassword = new PropertyReader("config.properties").getProperty("correctPassword");
@@ -40,6 +33,13 @@ public class  LinkedInTest extends BaseTest {
     public void authorizationWithIncorrectPasswordTest(){
         MainPage mainPage = new MainPage();
         mainPage.input(correctLogin, incorrectPassword);
+        mainPage.isAlertMessageExist();
+    }
+
+    @Test
+    public void authorizationWithIncorrectLoginTest(){
+        MainPage mainPage = new MainPage();
+        mainPage.input(incorrectLogin, correctPassword);
         mainPage.isAlertMessageExist();
     }
 

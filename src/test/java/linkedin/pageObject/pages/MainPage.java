@@ -1,4 +1,4 @@
-package linkedin.pageObject;
+package linkedin.pageObject.pages;
 
 import framework.BasePage;
 import framework.PropertyReader;

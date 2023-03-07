@@ -3,7 +3,7 @@
 <suite name="LinkedIn_Test_Project" parallel="tests" thread-count="1">
     <test name="test">
         <classes>
-            <class name="linkedin.LinkedInTest"/>
+            <class name="linkedin.tests.LinkedInTest"/>
         </classes>
     </test>
 </suite>
