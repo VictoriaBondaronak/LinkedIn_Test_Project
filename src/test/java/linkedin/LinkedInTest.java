@@ -1,6 +1,7 @@
 package linkedin;
 
 import framework.BaseTest;
+import framework.Browser;
 import framework.PropertyReader;
 import framework.elements.Label;
 import linkedin.pageObject.*;
@@ -46,19 +47,24 @@ public class  LinkedInTest extends BaseTest {
     public void addProfileInOtherLangTest() throws InterruptedException {
         authorizationWithCorrectDataTest();
         FeedPage feedPage = new FeedPage();
+        feedPage.openProfileSubmenu();
         feedPage.navigateToProfile();
         ProfilePage profilePage = new ProfilePage();
-        profilePage.addSecondaryLang("en_US");
-        profilePage.deleteSecondaryLang();
+        profilePage.addSecondaryLangButtonClick();
+        profilePage.fillAdditionalProfileForm("en_US");
+        profilePage.submitAdding();
+
+        //profilePage.deleteSecondaryLang();
     }
 
     @Test
     public void changeLangTest() throws InterruptedException {
         authorizationWithCorrectDataTest();
         FeedPage feedPage = new FeedPage();
-        feedPage.navigateToLangSettings();
+        feedPage.openProfileSubmenu();
+        feedPage.submenuItemClick();
         LangSettingsPage langSettingsPage = new LangSettingsPage();
-        langSettingsPage.selectLang();
+        langSettingsPage.selectLang("en_US");
     }
 
     @Test
@@ -72,6 +78,11 @@ public class  LinkedInTest extends BaseTest {
 
     @Test
     public void addToFavouritesTest(){
+        authorizationWithCorrectDataTest();
+        FeedPage feedPage = new FeedPage();
+        feedPage.feedButtonClick(1);
+        feedPage.chooseFeedSubmenu(0);
+
 
     }
 

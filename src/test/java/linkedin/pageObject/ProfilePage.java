@@ -1,6 +1,7 @@
 package linkedin.pageObject;
 
 import framework.BasePage;
+import framework.Browser;
 import framework.elements.*;
 import framework.elements.Button;
 import org.openqa.selenium.By;
@@ -24,38 +25,60 @@ public class ProfilePage extends BasePage {
     private static final String DELETE_PROFILE_XPATH = "//li[@id='%s']//button[contains(@class,'pv-update-supported-locales-section__delete-locale-button')]";
     private static final Button DELETE_BUTTON = new Button(xpath("//span[@class='artdeco-button__text' and text()='Удалить']"));
     private String secondaryLang;
+    private String secondaryLangText;
 
     public ProfilePage() {
         super(pageLocator, "'Profile' Page");
     }
 
 
-    public void addSecondaryLang(String testValue){
+    public void addSecondaryLangButtonClick(){
         hideChats.click();
         Button addSecondaryButton = new Button(xpath(ADD_SECONDARY_LANG_PROFILE_XPATH));
         addSecondaryButton.clickAndWait();
+    }
+
+    public void chooseLang(String testValue){
         DropDown selectLang = new DropDown(id(LANG_SELECTION_ID));
         selectLang.selectByValue(testValue);
-        Label selectedLang = new Label(xpath(String.format(SELECTED_LANG_XPATH,testValue)));
-        String lang = selectedLang.getText();
-        Input firstname = new Input(id(INPUT_FIRSTNAME_ID));
-        Input lastname = new Input(id(INPUT_LASTNAME_ID));
-        TextBox title = new TextBox(id(INPUT_TITLE_ID));
-        //TextArea title = new TextArea(By.id(INPUT_TITLE_ID));
-        firstname.sendKeys(lang);
-        lastname.sendKeys(lang);
-        title.sendKeys(lang);
-        //title.setText(lang);
-        PROFILE_ADD_SUBMIT.clickAndWait();
-        PROFILE_ADD_SUBMIT.clickAndWait();
-
-        Button secondLangProfile = new Button(xpath(String.format("//span[@class='artdeco-button__text' and @value='%s'])", testValue)));
-        //Assert.assertTrue(secondLangProfile.getText().equals(lang));
-
         this.secondaryLang = testValue;
     }
 
+    private void firstnameInput(String value){
+        Input firstname = new Input(id(INPUT_FIRSTNAME_ID));
+        firstname.sendKeys(value);
+    }
+    private void lastnameInput(String value){
+        Input lastname = new Input(id(INPUT_LASTNAME_ID));
+        lastname.sendKeys(value);
+    }
+    private void titleInput(String value){
+        TextBox title = new TextBox(id(INPUT_TITLE_ID));
+        title.sendKeys(value);
+    }
+
+    public void fillAdditionalProfileForm(String testValue){
+        chooseLang(testValue);
+        Label selectedLang = new Label(xpath(String.format(SELECTED_LANG_XPATH,testValue)));
+        String lang = selectedLang.getText();
+        firstnameInput(lang);
+        lastnameInput(lang);
+        titleInput(lang);
+        this.secondaryLangText = lang;
+    }
+
+    public void submitAdding(){
+        PROFILE_ADD_SUBMIT.clickAndWait();
+        PROFILE_ADD_SUBMIT.clickAndWait();
+        Browser.reloadPage();
+
+        Button secondLangProfile = new Button(xpath(String.format("//span[@class='artdeco-button__text' and @text()='%s'])", this.secondaryLangText)));
+        secondLangProfile.waitForElementsArePresent();
+        Assert.assertEquals(this.secondaryLangText, secondLangProfile.getText());
+    }
+
     public void deleteSecondaryLang(){
+
         if(this.secondaryLang == null) {return;}
 
         LOCALES_PROFILE_BUTTON.clickAndWait();

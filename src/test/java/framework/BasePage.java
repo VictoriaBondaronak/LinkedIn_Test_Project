@@ -1,13 +1,14 @@
 package framework;
 
 import framework.elements.Label;
+import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 
 import java.util.Date;
 
 import static framework.Browser.waitForPageToLoad;
-
+@Log4j2
 public class BasePage {
     protected By locator;
     protected String title;
@@ -32,8 +33,7 @@ public class BasePage {
             label.isElementPresent();
             waitForPageToLoad();
             long openTime = new Date().getTime() - before;
-            System.out.println(String.format("Form '%1$s' appears", title) + String.format(" is %s msec", openTime));
-
+            log.info(String.format("Form '%1$s' appears", title) + String.format(" is %s msec", openTime));
         } catch (Throwable e) {
             Assert.assertTrue(true, "Page " + title + " was not open");
         }

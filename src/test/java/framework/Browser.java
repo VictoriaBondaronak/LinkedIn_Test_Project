@@ -92,8 +92,13 @@ public class Browser {
         }
     }
 
-    public void reloadPage(){
+    public static void reloadPage(){
         driver.navigate().refresh();
+        waitForPageToLoad();
+    }
+
+    public static void switchToFrame(int index){
+        driver.switchTo().frame(index);
     }
 
     public void navigate(String url) {
