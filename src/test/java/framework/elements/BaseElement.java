@@ -93,6 +93,13 @@ public abstract class BaseElement {
         return null;
     }
 
+    public Label clear() {
+        isElementPresent();
+        log.info(getElementType() + ":" + by + " - method 'clear' was called");
+        getElement().clear();
+        return null;
+    }
+
     public boolean isSelected() {
         isElementPresent();
         log.info(getElementType() + ":" + by + "is selected: " + element.isSelected());

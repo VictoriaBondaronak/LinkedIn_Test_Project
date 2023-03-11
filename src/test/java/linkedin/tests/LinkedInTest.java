@@ -5,6 +5,8 @@ import framework.PropertyReader;
 import linkedin.pageObject.pages.*;
 import org.testng.annotations.Test;
 
+import java.net.URISyntaxException;
+
 public class  LinkedInTest extends BaseTest {
     String correctPassword = new PropertyReader("config.properties").getProperty("correctPassword");
     String correctLogin = new PropertyReader("config.properties").getProperty("correctLogin");
@@ -82,8 +84,37 @@ public class  LinkedInTest extends BaseTest {
         FeedPage feedPage = new FeedPage();
         feedPage.feedButtonClick(1);
         feedPage.chooseFeedSubmenu(0);
+    }
 
+    @Test
+    public void addJobInfoTest() throws InterruptedException {
+        authorizationWithCorrectDataTest();
+        FeedPage feedPage = new FeedPage();
+        feedPage.openProfileSubmenu();
+        feedPage.navigateToProfile();
+        ProfilePage profilePage = new ProfilePage();
+        profilePage.addJobInfoClick();
+        profilePage.fillJobInfoForm();
+        profilePage.saveJobInfoChanges();
+    }
 
+    @Test
+    public void addProfilePhotoTest() throws InterruptedException, URISyntaxException {
+        authorizationWithCorrectDataTest();
+        FeedPage feedPage = new FeedPage();
+        feedPage.openProfileSubmenu();
+        feedPage.navigateToProfile();
+        ProfilePage profilePage = new ProfilePage();
+        profilePage.addProfilePhotoButtonClick();
+        profilePage.addPhoto();
+    }
+
+    @Test
+    public void addNewPublication(){
+        authorizationWithCorrectDataTest();
+        FeedPage feedPage = new FeedPage();
+        feedPage.newPublicationButtonClick();
+        feedPage.addNewPublicationInfo();
     }
 
 }

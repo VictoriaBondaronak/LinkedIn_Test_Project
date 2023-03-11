@@ -24,6 +24,11 @@ public class FeedPage extends BasePage {
     private static final String NAV_MENU_ITEM = "//a[@class='app-aware-link  global-nav__primary-link' and contains(@href,'%s')]";
     private static final String FEED_BUTTON = "//div[@class='scaffold-finite-scroll__content']/div[%s]//button[contains(@class,'feed-shared-control-menu__trigger')]";
     private static final String FEED_SUBMENU = "//div[@class='scaffold-finite-scroll__content']/div[%d]//div[@class='artdeco-dropdown__content-inner']";
+    private static final Button NEW_PUBLICATION_BUTTON = new Button(By.xpath("//span[text()='Новая публикация']/../.."));
+    private static final String NEW_PUBLICATION_MENU_BUTTON_XPATH = "//ul[@class='artdeco-carousel__slider ember-view']/li[%s]";
+    private static final String NEW_PUBLICATION_MENU_TYPE_XPATH = "//p[text()='%s']/../..";
+    private static final String CHOOSING_IMAGE = "//ul[@class='team-moments-celebration-image-chooser__theme-list']/li[%s]";
+    private static final String PUBLICATION_BUTTON_XPATH = "//span[text()='%s']";
     private int FEED_ITEM_INDEX;
     Button PROFILE_MENU_BUTTON = new Button(xpath("//button[contains(@class,'global-nav__primary-link-me-menu-trigger')]"));
 
@@ -46,8 +51,9 @@ public class FeedPage extends BasePage {
         seeProfileButton.clickAndWait();
     }
 
-    public void openProfileSubmenu(){
+    public void openProfileSubmenu() throws InterruptedException {
         PROFILE_MENU_BUTTON.clickAndWait();
+        Thread.sleep(2000);
     }
 
     public void submenuItemClick(){
@@ -71,5 +77,22 @@ public class FeedPage extends BasePage {
         Label submenu = new Label(xpath(String.format(FEED_SUBMENU,FEED_ITEM_INDEX)));
         List<WebElement> elements = submenu.getElements();
         elements.get(submenuItemIndex).click();
+    }
+
+    public void newPublicationButtonClick(){
+        NEW_PUBLICATION_BUTTON.clickAndWait();
+    }
+    public void clickOnItem(String xpath, String value){
+        Button item = new Button(By.xpath(String.format(xpath,value)));
+        item.clickAndWait();
+    }
+
+    public void addNewPublicationInfo(){
+        clickOnItem(NEW_PUBLICATION_MENU_BUTTON_XPATH,"4");
+        clickOnItem(NEW_PUBLICATION_MENU_BUTTON_XPATH,"4");
+        clickOnItem(NEW_PUBLICATION_MENU_TYPE_XPATH,"Новая должность");
+        clickOnItem(CHOOSING_IMAGE,"1");
+        clickOnItem(PUBLICATION_BUTTON_XPATH,"Далее");
+        clickOnItem(PUBLICATION_BUTTON_XPATH,"Публикация");
     }
 }
