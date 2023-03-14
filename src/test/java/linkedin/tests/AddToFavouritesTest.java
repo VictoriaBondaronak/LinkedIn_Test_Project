@@ -13,6 +13,7 @@ public class AddToFavouritesTest extends BaseTest {
         MainPage mainPage = new MainPage();
         mainPage.input(correctLogin, correctPassword);
         mainPage.submitClick();
+
         FeedPage feedPage = new FeedPage();
         feedPage.feedButtonClick(1);
         feedPage.chooseFeedSubmenu(0);
