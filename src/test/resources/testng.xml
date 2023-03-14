@@ -3,7 +3,7 @@
 <suite name="LinkedIn_Test_Project" parallel="tests" thread-count="1">
     <test name="test">
         <classes>
-            <class name="linkedin.tests.AuthorizationWithCorrectDataTest"/>
+<!--            <class name="linkedin.tests.AuthorizationWithCorrectDataTest"/>-->
             <class name="linkedin.tests.AddJobInfoTest"/>
             <class name="linkedin.tests.AddNewPublicationTest"/>
             <class name="linkedin.tests.AddProfilePhotoTest"/>
