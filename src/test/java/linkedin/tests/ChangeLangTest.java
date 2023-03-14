@@ -17,6 +17,7 @@ public class ChangeLangTest extends BaseTest {
         feedPage.openProfileSubmenu();
         feedPage.submenuItemClick();
         LangSettingsPage langSettingsPage = new LangSettingsPage();
+        langSettingsPage.switchToLangFrame();
         langSettingsPage.selectLang("en_US");
     }
 }

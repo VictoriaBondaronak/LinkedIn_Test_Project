@@ -25,7 +25,6 @@ public class LangSettingsPage extends BasePage {
     }
 
     public void selectLang(String lang) throws InterruptedException {
-        switchToLangFrame();
         SELECT_LANG.click();
         Label selectingOption = new Label(xpath(String.format(SELECTING_OPTION_XPATH,lang)));
         String langText = selectingOption.getText();
