@@ -11,7 +11,7 @@ import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.xpath;
 
 public class MainPage extends BasePage {
-    private static final By PAGE_LOCATOR = By.xpath("//icon[@data-test-id='nav-logo']");
+    private static final By PAGE_LOCATOR = By.xpath("//a[contains(@class,'nav__logo-link link-no-visited-state')]");
     private static final String LOGIN_BUTTON = "//button[@data-id='sign-in-form__submit-btn']";
     private static final String LOGIN_INPUT = "session_key";
     private static final String PASSWORD_INPUT = "session_password";
