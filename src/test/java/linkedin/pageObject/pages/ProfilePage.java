@@ -4,7 +4,6 @@ import framework.BasePage;
 import framework.Browser;
 import framework.elements.*;
 import framework.elements.Button;
-import org.example.Main;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 
@@ -59,7 +58,7 @@ public class ProfilePage extends BasePage {
     public void addPhoto(String addButton, String saveButton, String imageName) throws URISyntaxException {
         Button addPhoto = new Button(xpath(String.format(PHOTO_MENU_BUTTON_XPATH,addButton)));
         addPhoto.clickAndWait();
-        URL resource = Main.class.getResource(imageName);
+        URL resource = ProfilePage.class.getResource(imageName);
         String absolutePath = Paths.get(resource.toURI()).toString();
         PHOTO_SELECTION.clear();
         PHOTO_SELECTION.sendKeys(absolutePath);
