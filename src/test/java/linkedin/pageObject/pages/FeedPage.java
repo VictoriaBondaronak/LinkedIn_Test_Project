@@ -18,12 +18,14 @@ public class FeedPage extends BasePage {
     private static final String FEED_BUTTON = "//div[@class='scaffold-finite-scroll__content']/div[%s]//button[contains(@class,'feed-shared-control-menu__trigger')]";
     private static final String FEED_SUBMENU = "//div[@class='scaffold-finite-scroll__content']/div[%d]//div[@class='artdeco-dropdown__content-inner']";
     private static final Button NEW_PUBLICATION_BUTTON = new Button(By.xpath("//span[text()='Новая публикация']/../.."));
+    private static final Button NEW_PUB_MORE_BUTTON = new Button(By.xpath("//div[@class='share-creation-state__detour-btn-container']/span[4]"));
     private static final Button SEE_PROFILE_BUTTON = new Button(xpath("//header[@class='p2']//a[text()='См. профиль']"));
-    private static final String NEW_PUBLICATION_MENU_BUTTON_XPATH = "//ul[@class='artdeco-carousel__slider ember-view']/li[%s]";
+    private static final String NEW_PUBLICATION_MENU_BUTTON_XPATH = "//button[span[contains(@class,'text-card') and contains(.,'%s')]]";
     private static final String NEW_PUBLICATION_MENU_TYPE_XPATH = "//p[text()='%s']/../..";
     private static final String CHOOSING_IMAGE = "//ul[@class='team-moments-celebration-image-chooser__theme-list']/li[%s]";
     private static final String PUBLICATION_BUTTON_XPATH = "//span[text()='%s']";
     private static final Button PROFILE_SUBMENU_ITEM = new Button(xpath("//a[contains(@href,'language')]"));
+    private static final Button CELEBRATION_BUTTON = new Button(id("CELEBRATION"));
     private int FEED_ITEM_INDEX;
     private Button PROFILE_MENU_BUTTON = new Button(xpath("//button[contains(@class,'global-nav__primary-link-me-menu-trigger')]"));
     private Input GLOBAL_SEARCH = new Input(className("search-global-typeahead__input"));
@@ -72,14 +74,18 @@ public class FeedPage extends BasePage {
     public void newPublicationButtonClick(){
         NEW_PUBLICATION_BUTTON.clickAndWait();
     }
+    public void newPubMoreButtonClick(){
+        NEW_PUB_MORE_BUTTON.clickAndWait();
+    }
+    public void celebrationButtonClick(){
+        CELEBRATION_BUTTON.clickAndWait();
+    }
     private void clickOnItem(String xpath, String value){
         Button item = new Button(By.xpath(String.format(xpath,value)));
         item.clickAndWait();
     }
 
-    public void addNewPublicationInfo(String value1, String value2, String pubType, String image, String buttonName1, String buttonName2){
-        clickOnItem(NEW_PUBLICATION_MENU_BUTTON_XPATH,value1);
-        clickOnItem(NEW_PUBLICATION_MENU_BUTTON_XPATH,value2);
+    public void addNewPublicationInfo(String pubType, String image, String buttonName1, String buttonName2){
         clickOnItem(NEW_PUBLICATION_MENU_TYPE_XPATH,pubType);
         clickOnItem(CHOOSING_IMAGE,image);
         clickOnItem(PUBLICATION_BUTTON_XPATH,buttonName1);
