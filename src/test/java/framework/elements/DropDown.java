@@ -14,7 +14,7 @@ public class DropDown extends BaseElement{
 
     @Override
     protected String getElementType() {
-        return null;
+        return "Dropdown:";
     }
 
 }

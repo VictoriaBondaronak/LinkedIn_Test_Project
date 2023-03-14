@@ -15,10 +15,9 @@ import org.testng.Assert;
 import static org.openqa.selenium.By.*;
 
 public class MessagingPage extends BasePage {
-    private  static final Label PAGE_LOCATOR = new Label(xpath("//h1[text()='Сообщения']"));
-    private static final By pageLocator = By.xpath("//h1[text()='Сообщения']");
+    private static final By pageLocator = By.xpath("//li-icon[@type='app-linkedin-bug-color-icon']");
 
-    private static final String NEW_MESSAGE_ID = "#compose-medium";
+    private static final String CLOSE_BUTTON_XPATH = "//button[@aria-label='%s')";
     private static final String SEARCH_INPUT_XPATH = "//input[contains(@class,'msg-connections-typeahead__search-field')]";
     private static final String SEARCH_RESULT_XPATH = "//button[contains(@class,'display-flex flex-row align-items-center msg-connections-typeahead__search-result')]";
     private static final String INSERT_MESSAGE_XPATH = "//div[@aria-label='Напишите сообщение…']";
@@ -30,18 +29,11 @@ public class MessagingPage extends BasePage {
 
 
     public void newMessage(String addresseeName, String addresseeSurname){
-        //Button newMessageButton = new Button(id(NEW_MESSAGE_ID));
-        //newMessageButton.clickAndWait();
         Input searchInput = new Input(xpath(SEARCH_INPUT_XPATH));
         searchInput.click();
         searchInput.sendKeys(addresseeName + " " + addresseeSurname);
         Button searchResult = new Button(xpath(SEARCH_RESULT_XPATH));
         searchResult.clickAndWait();
-//        Input messageInput = new Input(xpath(INSERT_MESSAGE_XPATH));
-//        messageInput.click();
-//        messageInput.sendKeys(String.format("Hello %s", addresseeName));
-//        Button send = new Button(className(SEND_MESSAGE_BUTTON_CLASS));
-//        send.click();
 
     }
 }

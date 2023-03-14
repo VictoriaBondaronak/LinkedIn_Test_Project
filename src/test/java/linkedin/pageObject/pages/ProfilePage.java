@@ -6,18 +6,12 @@ import framework.elements.*;
 import framework.elements.Button;
 import org.example.Main;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
-
-import javax.xml.xpath.XPath;
 
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
 
-import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.xpath;
 
 public class ProfilePage extends BasePage {
@@ -26,7 +20,6 @@ public class ProfilePage extends BasePage {
     private static final String ADD_SECONDARY_LANG_PROFILE_XPATH = "//a[@class='ember-view pv-add-secondary-language-section__button pv-profile-info-section-button__button']";
     private static final String ADD_PROFILE_PHOTO_XPATH = "//button[@class='profile-photo-edit__edit-btn']";
     private static final String SELECTED_LANG_XPATH = "//option[@value='%s']";
-    private static final String LANG_SELECTION_ID = "secondary-language-language";
     private static final Button PROFILE_ADD_SUBMIT = new Button(xpath("//button[@class='artdeco-button mlA']"));
     private static final Button LOCALES_PROFILE_BUTTON = new Button(xpath("//li-icon[@type='language-icon']"));
     private static final String DELETE_PROFILE_XPATH = "//li[@id='%s']//button[contains(@class,'pv-update-supported-locales-section__delete-locale-button')]";
@@ -40,7 +33,10 @@ public class ProfilePage extends BasePage {
 
     private static final Button SAVE_BUTTON = new Button(xpath("//span[text()='Сохранить']/.."));
     private static final String PHOTO_MENU_BUTTON_XPATH = "//span[text()='%s']";
+    private static final String SECOND_LANG_PROFILE_XPATH = "//span[@class='artdeco-button__text' and @text()='%s']";
+    private static final String DEL_SECONDARY_LANG_XPATH = "//span[@class='artdeco-button__text' and @value='%s']";
     private static final Button DISMISS_BUTTON = new Button(xpath("//button[@aria-label='Пропустить']"));
+    private  static final Input PHOTO_SELECTION = new Input(By.id("image-selector__file-upload-input"));
     private String secondaryLang;
     private String secondaryLangText;
 
@@ -60,20 +56,20 @@ public class ProfilePage extends BasePage {
         addPhotoButton.clickAndWait();
     }
 
-    public void addPhoto() throws URISyntaxException {
-        Button addPhoto = new Button(xpath(String.format(PHOTO_MENU_BUTTON_XPATH,"Добавить фото")));
+    public void addPhoto(String addButton, String saveButton, String imageName) throws URISyntaxException {
+        Button addPhoto = new Button(xpath(String.format(PHOTO_MENU_BUTTON_XPATH,addButton)));
         addPhoto.clickAndWait();
-        Input photoSelection = new Input(By.id("image-selector__file-upload-input"));
-        URL resource = Main.class.getResource("/profilephoto.jpeg");
+        URL resource = Main.class.getResource(imageName);
         String absolutePath = Paths.get(resource.toURI()).toString();
-        photoSelection.clear();
-        photoSelection.sendKeys(absolutePath);
-        Button savePhoto = new Button(xpath(String.format(PHOTO_MENU_BUTTON_XPATH,"Сохранить фото")));
+        PHOTO_SELECTION.clear();
+        PHOTO_SELECTION.sendKeys(absolutePath);
+        Button savePhoto = new Button(xpath(String.format(PHOTO_MENU_BUTTON_XPATH,saveButton)));
         savePhoto.clickAndWait();
     }
 
     private void formChooseByText(String xpath,String testValue){
         DropDown selection = new DropDown(By.xpath(String.format(DROPDOWN_XPATH,xpath)));
+        selection.clickAndWait();
         selection.selectByText(testValue);
         this.secondaryLang = testValue;
     }
@@ -83,30 +79,30 @@ public class ProfilePage extends BasePage {
         textField.sendKeys(value);
     }
     private void formTextAreaInput(String xpath, String value){
-        TextBox textArea = new TextBox(By.xpath(String.format(DESCRIPTION_XPATH,xpath)));
+        Input textArea = new Input(By.xpath(String.format(DESCRIPTION_XPATH,xpath)));
         textArea.sendKeys(value);
     }
 
     public void fillAdditionalProfileForm(String testValue){
-        formChooseByText("secondary-language",testValue);
         Label selectedLang = new Label(xpath(String.format(SELECTED_LANG_XPATH,testValue)));
         String lang = selectedLang.getText();
+        formChooseByText("secondary-language",lang);
         formTextFieldInput("firstname",lang);
         formTextFieldInput("lastname",lang);
         formTextAreaInput("headline",lang);
         this.secondaryLangText = lang;
     }
 
-    public void fillJobInfoForm(){
-        formTextFieldInput("title","Manager");
-        formTextFieldInput("requiredCompany","Freelance");
-        formTextFieldInput("geoPositionLocation","Minsk");
-        formTextFieldInput("industryId","Информационные услуги");
-        formTextAreaInput("description","Взаимодействие с ключевыми клиентами");
-        formChooseByText("employmentStatus","Фриланс");
-        formChooseByText("locationType","Удаленная работа");
-        formChooseByText("dateRange-start-date","апрель");
-        formChooseByText("start-date-year-select","2021");
+    public void fillJobInfoForm(String title, String company, String geo, String industry, String desc, String emplStatus, String locType, String startMonth, String startYear){
+        formTextFieldInput("title",title);
+        formTextFieldInput("requiredCompany",company);
+        formTextFieldInput("geoPositionLocation",geo);
+        formTextFieldInput("industryId",industry);
+        formTextAreaInput("description",desc);
+        formChooseByText("employmentStatus",emplStatus);
+        formChooseByText("locationType",locType);
+        formChooseByText("dateRange-start-date",startMonth);
+        formChooseByText("start-date-year-select",startYear);
     }
 
     private void chooseProposedItem(String xpath){
@@ -123,22 +119,16 @@ public class ProfilePage extends BasePage {
         PROFILE_ADD_SUBMIT.clickAndWait();
         PROFILE_ADD_SUBMIT.clickAndWait();
         Browser.reloadPage();
-
-        Button secondLangProfile = new Button(xpath(String.format("//span[@class='artdeco-button__text' and @text()='%s'])", this.secondaryLangText)));
-        secondLangProfile.waitForElementsArePresent();
-        Assert.assertEquals(this.secondaryLangText, secondLangProfile.getText());
+        Assert.assertNotNull(new Button(xpath(String.format(SECOND_LANG_PROFILE_XPATH, this.secondaryLangText))));
     }
 
     public void deleteSecondaryLang(){
-
         if(this.secondaryLang == null) {return;}
-
         LOCALES_PROFILE_BUTTON.clickAndWait();
         Button deleteProfileButton = new Button(By.xpath(String.format(DELETE_PROFILE_XPATH, this.secondaryLang)));
-
         deleteProfileButton.clickAndWait();
         DELETE_BUTTON.clickAndWait();
-        Assert.assertNull(new Button(xpath(String.format("//span[@class='artdeco-button__text' and @value='%s'])", this.secondaryLang))));
+        Assert.assertNull(new Button(xpath(String.format(DEL_SECONDARY_LANG_XPATH, this.secondaryLang))));
         this.secondaryLang = null;
     }
 
@@ -148,6 +138,4 @@ public class ProfilePage extends BasePage {
         Button addPosition = new Button(By.xpath(ADD_POSITION_XPATH));
         addPosition.clickAndWait();
     }
-
-
 }

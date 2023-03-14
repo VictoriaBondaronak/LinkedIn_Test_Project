@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 public abstract class BaseElement {
     protected WebElement element;
     protected List<WebElement> elements;
-    private By by;
+    protected By by;
     private String name;
     private WebDriverWait wait;
 
@@ -84,20 +84,6 @@ public abstract class BaseElement {
             return false;
         }
         return false;
-    }
-
-    public Label sendKeys(String sendKeys) {
-        isElementPresent();
-        log.info(getElementType() + ":" + by + " - method 'sendKeys' was called");
-        getElement().sendKeys(sendKeys);
-        return null;
-    }
-
-    public Label clear() {
-        isElementPresent();
-        log.info(getElementType() + ":" + by + " - method 'clear' was called");
-        getElement().clear();
-        return null;
     }
 
     public boolean isSelected() {

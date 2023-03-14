@@ -3,7 +3,17 @@
 <suite name="LinkedIn_Test_Project" parallel="tests" thread-count="1">
     <test name="test">
         <classes>
-            <class name="linkedin.tests.LinkedInTest"/>
+            <class name="linkedin.tests.AuthorizationWithCorrectDataTest"/>
+            <class name="linkedin.tests.AddJobInfoTest"/>
+            <class name="linkedin.tests.AddNewPublicationTest"/>
+            <class name="linkedin.tests.AddProfilePhotoTest"/>
+            <class name="linkedin.tests.AddToFavouritesTest"/>
+            <class name="linkedin.tests.SendMessageTest"/>
+            <class name="linkedin.tests.SearchCompanyTest"/>
+            <class name="linkedin.tests.AddProfileInOtherLangTest"/>
+            <class name="linkedin.tests.ChangeLangTest"/>
+            <class name="linkedin.tests.AuthorizationWithIncorrectLoginTest"/>
+            <class name="linkedin.tests.AuthorizationWithIncorrectPasswordTest"/>
         </classes>
     </test>
 </suite>
