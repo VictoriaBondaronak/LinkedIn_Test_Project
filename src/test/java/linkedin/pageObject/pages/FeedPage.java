@@ -14,7 +14,6 @@ import static org.openqa.selenium.By.*;
 
 public class FeedPage extends BasePage {
     private static final By PAGE_LOCATOR = By.xpath("//div[@class='feed-identity-module__actor-meta break-words']");
-
     private static final String NAV_MENU_ITEM = "//a[@class='app-aware-link  global-nav__primary-link' and contains(@href,'%s')]";
     private static final String FEED_BUTTON = "//div[@class='scaffold-finite-scroll__content']/div[%s]//button[contains(@class,'feed-shared-control-menu__trigger')]";
     private static final String FEED_SUBMENU = "//div[@class='scaffold-finite-scroll__content']/div[%d]//div[@class='artdeco-dropdown__content-inner']";
@@ -24,12 +23,10 @@ public class FeedPage extends BasePage {
     private static final String NEW_PUBLICATION_MENU_TYPE_XPATH = "//p[text()='%s']/../..";
     private static final String CHOOSING_IMAGE = "//ul[@class='team-moments-celebration-image-chooser__theme-list']/li[%s]";
     private static final String PUBLICATION_BUTTON_XPATH = "//span[text()='%s']";
+    private static final Button PROFILE_SUBMENU_ITEM = new Button(xpath("//a[contains(@href,'language')]"));
     private int FEED_ITEM_INDEX;
     private Button PROFILE_MENU_BUTTON = new Button(xpath("//button[contains(@class,'global-nav__primary-link-me-menu-trigger')]"));
-
     private Input GLOBAL_SEARCH = new Input(className("search-global-typeahead__input"));
-
-
 
     public FeedPage() {
         super(PAGE_LOCATOR, "'Feed' Page");
@@ -51,8 +48,7 @@ public class FeedPage extends BasePage {
     }
 
     public void submenuItemClick(){
-        Button profileSubmenuItem = new Button(xpath("//a[contains(@href,'language')]"));
-        profileSubmenuItem.clickAndWait();
+        PROFILE_SUBMENU_ITEM.clickAndWait();
     }
 
     public void globalSearch(String searchingValue){
@@ -81,12 +77,12 @@ public class FeedPage extends BasePage {
         item.clickAndWait();
     }
 
-    public void addNewPublicationInfo(){
-        clickOnItem(NEW_PUBLICATION_MENU_BUTTON_XPATH,"4");
-        clickOnItem(NEW_PUBLICATION_MENU_BUTTON_XPATH,"4");
-        clickOnItem(NEW_PUBLICATION_MENU_TYPE_XPATH,"Новая должность");
-        clickOnItem(CHOOSING_IMAGE,"1");
-        clickOnItem(PUBLICATION_BUTTON_XPATH,"Далее");
-        clickOnItem(PUBLICATION_BUTTON_XPATH,"Публикация");
+    public void addNewPublicationInfo(String value1, String value2, String pubType, String image, String buttonName1, String buttonName2){
+        clickOnItem(NEW_PUBLICATION_MENU_BUTTON_XPATH,value1);
+        clickOnItem(NEW_PUBLICATION_MENU_BUTTON_XPATH,value2);
+        clickOnItem(NEW_PUBLICATION_MENU_TYPE_XPATH,pubType);
+        clickOnItem(CHOOSING_IMAGE,image);
+        clickOnItem(PUBLICATION_BUTTON_XPATH,buttonName1);
+        clickOnItem(PUBLICATION_BUTTON_XPATH,buttonName2);
     }
 }

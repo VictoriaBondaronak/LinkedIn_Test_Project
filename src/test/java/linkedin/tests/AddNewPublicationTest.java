@@ -13,6 +13,12 @@ public class AddNewPublicationTest extends BaseTest {
         mainPage.submitClick();
         FeedPage feedPage = new FeedPage();
         feedPage.newPublicationButtonClick();
-        feedPage.addNewPublicationInfo();
+        feedPage.addNewPublicationInfo(
+                "4",
+                "4",
+                "Новая должность",
+                "1",
+                "Далее",
+                "Публикация");
     }
 }
